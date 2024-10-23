@@ -13,9 +13,11 @@ app.use(cors());
 // Routes
 const classifyRoute = require("./routes/classify");
 const summarizeRoute = require("./routes/summarize");
+const aliveRoute = require("./routes/alive");
 
 app.use("/api/classify", classifyRoute);
 app.use("/api/summarize", checkAuth, summarizeRoute);
+app.use("/api/alive", aliveRoute);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
