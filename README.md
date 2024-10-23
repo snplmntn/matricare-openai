@@ -1,1 +1,1 @@
-# matricare-categorizer
+# matricare-openai
