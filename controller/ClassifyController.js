@@ -28,7 +28,7 @@ const classify_post = catchAsync(async (req, res, next) => {
   ];
 
   const response = await openai.chat.completions.create({
-    model: "gpt-4o-mini-2024-07-18",
+    model: "gpt-4o",
     messages: messages,
     max_tokens: 50,
     temperature: 0,
