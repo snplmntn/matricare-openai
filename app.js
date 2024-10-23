@@ -1,27 +1,26 @@
-const express = require('express');
-const { OpenAI } = require('openai');
+const express = require("express");
+const cors = require("cors");
+
+// Utilities
+const checkAuth = require("./utils/checkAuth");
+const AppError = require("./utils/appError");
+const globalErrorHandler = require("./controller/ErrorController");
+
 const app = express();
-const PORT = 3000;
-
-const openai = new OpenAI({
-    apiKey: 'YOUR_OPENAI_API_KEY',  // Replace with your OpenAI API key
-});
-
 app.use(express.json());
+app.use(cors());
 
-app.post('/openai', async (req, res) => {
-  try {
-    const chatCompletion = await openai.chat.completions.create({
-      messages: [{ role: 'user', content: 'Please make a joke' }],
-      model: 'gpt-3.5-turbo',
-    });
-    res.json(chatCompletion.choices[0].message.content);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Something went wrong!');
-  }
+// Routes
+const classifyRoute = require("./routes/classify");
+const summarizeRoute = require("./routes/summarize");
+
+app.use("/api/classify", classifyRoute);
+app.use("/api/summarize", checkAuth, summarizeRoute);
+
+app.all("*", (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+app.use(globalErrorHandler);
+
+module.exports = app;
