@@ -49,7 +49,7 @@ const classify_post = catchAsync(async (req, res, next) => {
     .filter((category) => validCategories.includes(category));
 
   if (category.length === 0) {
-    return next(new AppError("Failed to classify the post", 404));
+    return res.status(200).json({ content, category: [] });
   }
   return res.status(200).json({ content, category });
 });
