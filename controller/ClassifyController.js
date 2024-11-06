@@ -48,9 +48,7 @@ const classify_post = catchAsync(async (req, res, next) => {
     .map((category) => category.trim())
     .filter((category) => validCategories.includes(category));
 
-  if (category.length === 0) {
-    return res.status(200).json({ content, category: [] });
-  }
+
   return res.status(200).json({ content, category });
 });
 
