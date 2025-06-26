@@ -49,16 +49,19 @@ Please respond with only a JSON object containing the 'isRelevant' boolean field
   try {
     // Extract and parse the response
     const result = response.choices[0].message.content.trim();
-    const parsedResult = JSON.parse(result);
+    // Strictly extract the first JSON object from the response
+    const match = result.match(/\{[\s\S]*?\}/);
+    if (!match) throw new Error("No JSON object found in response");
+    const parsedResult = JSON.parse(match[0]);
 
     return res.status(200).json({
       isRelevant: parsedResult.isRelevant === true,
     });
   } catch (error) {
-    // If parsing fails, default to relevant to avoid blocking legitimate comments
+    // If parsing fails, default to irrelevant to avoid false positives
     console.error("Failed to parse relevance check result:", error.message);
     return res.status(200).json({
-      isRelevant: true,
+      isRelevant: false,
     });
   }
 });
