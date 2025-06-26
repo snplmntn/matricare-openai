@@ -3,7 +3,7 @@ const catchAsync = require("../utils/catchAsync");
 
 // Check if comment content is related to post content
 const relevance_check = catchAsync(async (req, res, next) => {
-  const { postContent, commentContent, instruction } = req.body;
+  const { postContent, commentContent } = req.body;
 
   const messages = [
     {
@@ -28,10 +28,7 @@ MARK AS RELEVANT (isRelevant: true) ONLY if the comment:
     },
     {
       role: "user",
-      content: `${
-        instruction ||
-        "Determine if the comment is relevant and related to the post content. Return a simple JSON object with 'isRelevant' boolean field. Be very strict - only mark as relevant if the comment meaningfully contributes to discussion about the post topic."
-      }
+      content: `
 
 Post Content: "${postContent}"
 
