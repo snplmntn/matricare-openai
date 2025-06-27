@@ -15,11 +15,13 @@ const classifyRoute = require("./routes/classify");
 const generateArticleRoute = require("./routes/generateArticle");
 const relevanceCheckRoute = require("./routes/relevanceCheck");
 const aliveRoute = require("./routes/alive");
+const askObgynRoute = require("./routes/askObgyn");
 
 app.use("/api/classify", classifyRoute);
 app.use("/api/article", generateArticleRoute);
 app.use("/api/relevance-check", relevanceCheckRoute);
 app.use("/api/alive", aliveRoute);
+app.use("/api/ask", askObgynRoute);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
