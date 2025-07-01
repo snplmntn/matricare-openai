@@ -48,7 +48,7 @@ const answer_obgyn_question = catchAsync(async (req, res, next) => {
   const response = await openai.chat.completions.create({
     model: "gpt-4o",
     messages: messages,
-    max_tokens: 800,
+    max_tokens: 200,
   });
 
   const answer = response.choices[0].message.content.trim();
